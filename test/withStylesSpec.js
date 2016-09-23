@@ -11,6 +11,7 @@
 
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import React, { createClass, Component } from 'react';
 import withStyles from '../src/withStyles';
 
@@ -82,5 +83,17 @@ describe('withStyles(ComposedComponent, ...styles)', () => {
 
     const decorated = withStyles('')(Foo);
     expect(decorated.propTypes).to.not.equal(true);
+  });
+
+  it('Should shallow render without `insertCss` context', () => {
+    const StyledComponent = withStyles('')(
+      class Foo extends Component {
+        render() {
+          return <div />;
+        }
+      }
+    );
+
+    expect(shallow(<StyledComponent />).html()).to.equal('<div></div>');
   });
 });
